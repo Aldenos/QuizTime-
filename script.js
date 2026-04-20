@@ -84,13 +84,13 @@ const revealObserver = new IntersectionObserver(entries => {
       revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
+}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
 
 document.addEventListener('DOMContentLoaded', () => {
-  const targets = '.benefit-card, .testimonial-card, .pricing-card, .team-card, .faq-item';
+  const targets = '.benefit-card, .testimonial-card, .pricing-card, .team-card, .faq-item, .contact-form';
   document.querySelectorAll(targets).forEach((el, i) => {
     el.classList.add('reveal');
-    el.style.transitionDelay = `${(i % 5) * 80}ms`;
+    el.style.transitionDelay = `${(i % 5) * 60}ms`;
     revealObserver.observe(el);
   });
   updateActiveNav();
