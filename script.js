@@ -1,24 +1,27 @@
-// ========== NAVBAR SCROLL ==========
+// ── NAVBAR SCROLL EFFECT ──
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 10);
   updateActiveNav();
 });
 
-// ========== SMOOTH SCROLL for nav links ==========
+// ── SMOOTH SCROLL ──
 document.querySelectorAll('a[href^="#"]').forEach(link => {
   link.addEventListener('click', e => {
-    const target = document.querySelector(link.getAttribute('href'));
+    const href = link.getAttribute('href');
+    const target = document.querySelector(href);
     if (target) {
       e.preventDefault();
-      const offset = document.getElementById('navbar').offsetHeight;
+      const offset = navbar.offsetHeight + 8;
       window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
+      // Close mobile nav if open
+      document.getElementById('main-nav').classList.remove('open');
     }
   });
 });
 
-// ========== SCROLL SPY ==========
-const sections = [
+// ── SCROLL SPY ──
+const spySections = [
   { id: 'inicio',   nav: 'nav-inicio' },
   { id: 'precios',  nav: 'nav-precios' },
   { id: 'acerca',   nav: 'nav-acerca' },
@@ -26,40 +29,39 @@ const sections = [
 ];
 
 function updateActiveNav() {
-  const scrollY = window.scrollY + 100;
-  let current = sections[0].nav;
-  sections.forEach(({ id, nav }) => {
+  const scrollY = window.scrollY + navbar.offsetHeight + 40;
+  let current = spySections[0].nav;
+  spySections.forEach(({ id, nav }) => {
     const el = document.getElementById(id);
     if (el && el.offsetTop <= scrollY) current = nav;
   });
   document.querySelectorAll('.nav-link').forEach(l => l.classList.remove('active'));
-  const active = document.getElementById(current);
-  if (active) active.classList.add('active');
+  const activeEl = document.getElementById(current);
+  if (activeEl) activeEl.classList.add('active');
 }
 
-// ========== FAQ ACCORDION ==========
+// ── HAMBURGER ──
+document.getElementById('hamburger').addEventListener('click', () => {
+  document.getElementById('main-nav').classList.toggle('open');
+});
+
+// ── FAQ ACCORDION ──
 document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
-    const expanded = btn.getAttribute('aria-expanded') === 'true';
+    const isOpen = btn.getAttribute('aria-expanded') === 'true';
     // close all
     document.querySelectorAll('.faq-question').forEach(b => {
       b.setAttribute('aria-expanded', 'false');
       b.nextElementSibling.classList.remove('open');
     });
-    // open clicked if it was closed
-    if (!expanded) {
+    if (!isOpen) {
       btn.setAttribute('aria-expanded', 'true');
       btn.nextElementSibling.classList.add('open');
     }
   });
 });
 
-// ========== HAMBURGER MENU ==========
-const hamburger = document.getElementById('hamburger');
-const nav = document.querySelector('nav');
-hamburger.addEventListener('click', () => nav.classList.toggle('open'));
-
-// ========== CONTACT FORM ==========
+// ── CONTACT FORM ──
 function handleSubmit(e) {
   e.preventDefault();
   const btn = document.getElementById('btn-submit');
@@ -67,38 +69,29 @@ function handleSubmit(e) {
   btn.disabled = true;
   setTimeout(() => {
     document.getElementById('form-success').classList.add('show');
-    document.getElementById('contact-form').reset();
+    e.target.reset();
     btn.textContent = 'Enviar mensaje';
     btn.disabled = false;
+    setTimeout(() => document.getElementById('form-success').classList.remove('show'), 5000);
   }, 1200);
 }
 
-// ========== INTERSECTION OBSERVER (fade-in on scroll) ==========
-const observer = new IntersectionObserver(entries => {
+// ── SCROLL REVEAL ──
+const revealObserver = new IntersectionObserver(entries => {
   entries.forEach(entry => {
     if (entry.isIntersecting) {
       entry.target.classList.add('visible');
-      observer.unobserve(entry.target);
+      revealObserver.unobserve(entry.target);
     }
   });
-}, { threshold: 0.12 });
-
-document.querySelectorAll('.benefit-card, .testimonial-card, .pricing-card, .team-card, .faq-item, .contact-item')
-  .forEach(el => {
-    el.style.opacity = '0';
-    el.style.transform = 'translateY(24px)';
-    el.style.transition = 'opacity 0.5s ease, transform 0.5s ease';
-    observer.observe(el);
-  });
+}, { threshold: 0.1, rootMargin: '0px 0px -40px 0px' });
 
 document.addEventListener('DOMContentLoaded', () => {
-  document.querySelectorAll('.benefit-card, .testimonial-card, .pricing-card, .team-card, .faq-item, .contact-item')
-    .forEach(el => {
-      el.classList.add('visible');
-    });
+  const targets = '.benefit-card, .testimonial-card, .pricing-card, .team-card, .faq-item';
+  document.querySelectorAll(targets).forEach((el, i) => {
+    el.classList.add('reveal');
+    el.style.transitionDelay = `${(i % 5) * 80}ms`;
+    revealObserver.observe(el);
+  });
+  updateActiveNav();
 });
-
-// Add visible style once
-const style = document.createElement('style');
-style.textContent = '.visible { opacity: 1 !important; transform: translateY(0) !important; }';
-document.head.appendChild(style);
