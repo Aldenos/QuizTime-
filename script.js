@@ -27,6 +27,7 @@ const spySections = [
   { id: 'demo',        nav: 'nav-demo' },
   { id: 'precios',     nav: 'nav-precios' },
   { id: 'acerca',      nav: 'nav-acerca' },
+  { id: 'equipo',      nav: 'nav-equipo' },
   { id: 'faq',         nav: 'nav-faq' },
   { id: 'contacto',    nav: 'nav-contacto' },
 ];
