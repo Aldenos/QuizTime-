@@ -1,4 +1,4 @@
-// ── NAVBAR SCROLL EFFECT ──
+// ── NAVBAR SCROLL ──
 const navbar = document.getElementById('navbar');
 window.addEventListener('scroll', () => {
   navbar.classList.toggle('scrolled', window.scrollY > 10);
@@ -14,7 +14,6 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
       e.preventDefault();
       const offset = navbar.offsetHeight + 8;
       window.scrollTo({ top: target.offsetTop - offset, behavior: 'smooth' });
-      // Close mobile nav if open
       document.getElementById('main-nav').classList.remove('open');
     }
   });
@@ -22,10 +21,14 @@ document.querySelectorAll('a[href^="#"]').forEach(link => {
 
 // ── SCROLL SPY ──
 const spySections = [
-  { id: 'inicio',   nav: 'nav-inicio' },
-  { id: 'precios',  nav: 'nav-precios' },
-  { id: 'acerca',   nav: 'nav-acerca' },
-  { id: 'contacto', nav: 'nav-contacto' },
+  { id: 'inicio',      nav: 'nav-inicio' },
+  { id: 'beneficios',  nav: 'nav-beneficios' },
+  { id: 'testimonios', nav: 'nav-testimonios' },
+  { id: 'demo',        nav: 'nav-demo' },
+  { id: 'precios',     nav: 'nav-precios' },
+  { id: 'acerca',      nav: 'nav-acerca' },
+  { id: 'faq',         nav: 'nav-faq' },
+  { id: 'contacto',    nav: 'nav-contacto' },
 ];
 
 function updateActiveNav() {
@@ -49,7 +52,6 @@ document.getElementById('hamburger').addEventListener('click', () => {
 document.querySelectorAll('.faq-question').forEach(btn => {
   btn.addEventListener('click', () => {
     const isOpen = btn.getAttribute('aria-expanded') === 'true';
-    // close all
     document.querySelectorAll('.faq-question').forEach(b => {
       b.setAttribute('aria-expanded', 'false');
       b.nextElementSibling.classList.remove('open');
@@ -70,28 +72,11 @@ function handleSubmit(e) {
   setTimeout(() => {
     document.getElementById('form-success').classList.add('show');
     e.target.reset();
-    btn.textContent = 'Enviar mensaje';
+    btn.textContent = 'Envía un mensaje';
     btn.disabled = false;
     setTimeout(() => document.getElementById('form-success').classList.remove('show'), 5000);
   }, 1200);
 }
 
-// ── SCROLL REVEAL ──
-const revealObserver = new IntersectionObserver(entries => {
-  entries.forEach(entry => {
-    if (entry.isIntersecting) {
-      entry.target.classList.add('visible');
-      revealObserver.unobserve(entry.target);
-    }
-  });
-}, { threshold: 0.08, rootMargin: '0px 0px -20px 0px' });
-
-document.addEventListener('DOMContentLoaded', () => {
-  const targets = '.benefit-card, .testimonial-card, .pricing-card, .team-card, .faq-item, .contact-form';
-  document.querySelectorAll(targets).forEach((el, i) => {
-    el.classList.add('reveal');
-    el.style.transitionDelay = `${(i % 5) * 60}ms`;
-    revealObserver.observe(el);
-  });
-  updateActiveNav();
-});
+// ── INIT ──
+document.addEventListener('DOMContentLoaded', updateActiveNav);
