@@ -79,19 +79,7 @@ ul   { list-style: none; }
 }
 .btn-primary:hover { background: #1a4d79; transform: translateY(-1px); }
 
-.btn-plan-dark {
-  display: block;
-  text-align: center;
-  background: var(--secondary);
-  color: #fff;
-  padding: 12px 28px;
-  border-radius: var(--radius);
-  font-weight: 500;
-  font-size: 0.92rem;
-  transition: background .2s, transform .2s;
-  margin-top: 24px;
-}
-.btn-plan-dark:hover { background: #2d2b36; transform: translateY(-1px); }
+/* old btn-plan-dark kept for safety but replaced by btn-plan-navy above */
 
 /* ── NAVBAR ── */
 #navbar {
@@ -378,65 +366,97 @@ ul   { list-style: none; }
 .pricing-card {
   background: var(--bg);
   border-radius: var(--radius);
-  padding: 28px 24px;
+  padding: 28px 24px 28px;
   border: 1px solid var(--border);
   box-shadow: var(--shadow);
   transition: box-shadow .25s, transform .25s;
+  display: flex;
+  flex-direction: column;
 }
 .pricing-card:hover { box-shadow: var(--shadow-md); transform: translateY(-3px); }
+
+/* pricing eyebrow */
+.pricing-eyebrow {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  margin-bottom: 8px;
+  font-weight: 400;
+}
 
 .plan-tag {
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 1.5px;
   text-transform: uppercase;
-  color: var(--text-muted);
-  margin-bottom: 10px;
+  color: var(--primary);
+  margin-bottom: 12px;
 }
-.plan-tag.primary { color: var(--primary); }
 
 .plan-price {
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   font-weight: 700;
   color: var(--primary);
   margin-bottom: 20px;
   display: flex;
   align-items: baseline;
-  gap: 2px;
+  gap: 3px;
 }
 .price-num {
-  font-size: 2.4rem;
+  font-size: 2.6rem;
   line-height: 1;
+  font-weight: 700;
 }
 .price-period {
   font-size: 0.85rem;
   color: var(--text-muted);
   font-weight: 400;
+  margin-left: 2px;
 }
 
-.plan-features { margin-bottom: 8px; }
+.plan-features { margin-bottom: 24px; }
 .plan-features li {
   display: flex;
   align-items: flex-start;
-  gap: 8px;
+  gap: 10px;
   font-size: 0.85rem;
   color: var(--text-muted);
-  padding: 6px 0;
-  line-height: 1.4;
+  padding: 5px 0;
+  line-height: 1.45;
 }
-.check-icon {
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 18px;
-  height: 18px;
-  border-radius: 50%;
-  background: var(--primary);
-  color: #fff;
-  font-size: 0.65rem;
-  font-weight: 700;
+
+/* SVG circle checkmark */
+.check-svg {
+  width: 20px;
+  height: 20px;
   flex-shrink: 0;
+  color: var(--primary);
   margin-top: 1px;
+}
+
+/* Blue bottom border on first plan card */
+.card-border-bottom {
+  border-bottom: 3px solid var(--primary);
+}
+
+/* Navy buttons for plans */
+.btn-plan-navy {
+  display: block;
+  text-align: center;
+  background: #1a4068;
+  color: #fff;
+  padding: 13px 28px;
+  border-radius: var(--radius);
+  font-weight: 500;
+  font-size: 0.92rem;
+  transition: background .2s, transform .2s;
+  margin-top: auto;
+}
+.btn-plan-navy:hover { background: #143050; transform: translateY(-1px); }
+
+/* PRO button: not full width */
+.btn-plan-inline {
+  display: inline-block;
+  width: auto;
 }
 
 /* ── ABOUT ── */
